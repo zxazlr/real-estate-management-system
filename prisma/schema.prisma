@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Property {
+  id            Int      @id @default(autoincrement())
+  propertyCode  String   @unique
+  name          String
+  address       String
+  price         String
+  type          String
+  area          String?
+  layout        String?
+  year          String?
+  managementFee String?
+  repairFee     String?
+  status        String   @default("公開中")
+  notes         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  contracts Contract[]
+}
+model Customer {
+  id          Int      @id @default(autoincrement())
+  customerCode String  @unique
+  name        String
+  phone       String
+  email       String?
+  address     String?
+  status      String   @default("対応中")
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  contracts Contract[]
+}
+model Contract {
+  id           Int      @id @default(autoincrement())
+  contractCode String   @unique
+
+  customerId   Int
+  propertyId   Int
+
+  customer     Customer @relation(fields: [customerId], references: [id])
+  property     Property @relation(fields: [propertyId], references: [id])
+
+  contractPrice String
+  contractDate  DateTime
+  status        String   @default("契約中")
+  notes         String?
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}

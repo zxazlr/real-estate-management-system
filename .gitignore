@@ -1,0 +1,12 @@
+node_modules
+.next
+.env
+*.db
+*.db-journal
+
+.agents
+.claude
+.cursor
+.devin
+AGENTS.md
+CLAUDE.md
